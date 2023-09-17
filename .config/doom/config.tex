@@ -1,0 +1,1474 @@
+% Created 2023-03-25 Sat 20:18
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Derek Taylor (DT) and Yuvraj Birdi (YSB)}
+\date{\today}
+\title{YSB's Doom Emacs Config}
+\hypersetup{
+ pdfauthor={Derek Taylor (DT) and Yuvraj Birdi (YSB)},
+ pdftitle={YSB's Doom Emacs Config},
+ pdfkeywords={},
+ pdfsubject={DT's personal  Doom Emacs config modified by YSB.},
+ pdfcreator={Emacs 28.2 (Org mode 9.6.1)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{TABLE OF CONTENTS\hfill{}\textsc{toc}}
+\label{sec:orgaf81415}
+\begin{itemize}
+\item 
+\item 
+\item \begin{itemize}
+\item 
+\item 
+\item 
+\item 
+\end{itemize}
+\item 
+\item 
+\item 
+\item \begin{itemize}
+\item 
+\item 
+\end{itemize}
+\item \begin{itemize}
+\item 
+\item 
+\item 
+\item 
+\end{itemize}
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\item \begin{itemize}
+\item 
+\item 
+\end{itemize}
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\item \begin{itemize}
+\item 
+\item 
+\item 
+\item 
+\item 
+\end{itemize}
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\end{itemize}
+
+\section{ABOUT THIS CONFIG}
+\label{sec:org9e5bfba}
+This is my personal Doom Emacs config.  Doom Emacs is a distribution of Emacs that uses the ``evil'' keybindings (Vim keybindings) and includes a number of nice extensions and a bit of configuration out of the box.  I am maintaining this config not just for myself, but also for those that want to explore some of what is possible with Emacs.  I will add a lot of examples of plugins and settings, some of them I may not even use personally.  I do this because many people following me on YouTube look at my configs as ``documentation''.
+
+\section{BEACON}
+\label{sec:org6e797ec}
+Never lose your cursor.  When you scroll, your cursor will shine!  This is a global minor-mode. Turn it on everywhere with:
+
+\begin{verbatim}
+(beacon-mode 1)
+\end{verbatim}
+
+\section{BOOKMARKS AND BUFFERS}
+\label{sec:orga0d0630}
+Doom Emacs uses 'SPC b' for keybindings related to bookmarks and buffers.
+
+\subsection{Bookmarks}
+\label{sec:org5f2bd3a}
+Bookmarks are somewhat like registers in that they record positions you can jump to.  Unlike registers, they have long names, and they persist automatically from one Emacs session to the next. The prototypical use of bookmarks is to record where you were reading in various files.
+
+\begin{verbatim}
+(map! :leader
+      (:prefix ("b". "buffer")
+       :desc "List bookmarks" "L" #'list-bookmarks
+       :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
+\end{verbatim}
+
+\subsection{Buffers}
+\label{sec:orgf5c2da5}
+Regarding \emph{buffers}, the text you are editing in Emacs resides in an object called a \emph{buffer}. Each time you visit a file, a buffer is used to hold the file’s text. Each time you invoke Dired, a buffer is used to hold the directory listing.  \emph{Ibuffer} is a program that lists all of your Emacs \emph{buffers}, allowing you to navigate between them and filter them.
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+ibuffer & Launch ibuffer & SPC b i\\[0pt]
+kill-buffer & Kill current buffer & SPC b k\\[0pt]
+next-buffer & Goto next buffer & SPC b n\\[0pt]
+previous-buffer & Goto previous buffer & SPC b p\\[0pt]
+save-buffer & Save current buffer & SPC b s\\[0pt]
+\end{tabular}
+\end{center}
+
+\subsection{Global Auto Revert}
+\label{sec:orgd73b193}
+A buffer can get out of sync with respect to its visited file on disk if that file is changed by another program. To keep it up to date, you can enable Auto Revert mode by typing M-x auto-revert-mode, or you can set it to be turned on globally with 'global-auto-revert-mode'.  I have also turned on Global Auto Revert on non-file buffers, which is especially useful for 'dired' buffers.
+
+\begin{verbatim}
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
+\end{verbatim}
+
+\subsection{Keybindings within ibuffer mode}
+\label{sec:org6013ae8}
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+ibuffer-mark-forward & Mark the buffer & m\\[0pt]
+ibuffer-unmark-forward & Unmark the buffer & u\\[0pt]
+ibuffer-do-kill-on-deletion-marks & Kill the marked buffers & x\\[0pt]
+ibuffer-filter-by-content & Ibuffer filter by content & f c\\[0pt]
+ibuffer-filter-by-directory & Ibuffer filter by directory & f d\\[0pt]
+ibuffer-filter-by-filename & Ibuffer filter by filename (full path) & f f\\[0pt]
+ibuffer-filter-by-mode & Ibuffer filter by mode & f m\\[0pt]
+ibuffer-filter-by-name & Ibuffer filter by name & f n\\[0pt]
+ibuffer-filter-disable & Disable ibuffer filter & f x\\[0pt]
+ibuffer-do-kill-lines & Hide marked buffers & g h\\[0pt]
+ibuffer-update & Restore hidden buffers & g H\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(evil-define-key 'normal ibuffer-mode-map
+  (kbd "f c") 'ibuffer-filter-by-content
+  (kbd "f d") 'ibuffer-filter-by-directory
+  (kbd "f f") 'ibuffer-filter-by-filename
+  (kbd "f m") 'ibuffer-filter-by-mode
+  (kbd "f n") 'ibuffer-filter-by-name
+  (kbd "f x") 'ibuffer-filter-disable
+  (kbd "g h") 'ibuffer-do-kill-lines
+  (kbd "g H") 'ibuffer-update)
+\end{verbatim}
+
+\section{CALENDAR}
+\label{sec:orga36f254}
+Let's make a 12-month calendar available so we can have a calendar app that, when we click on time/date in xmobar, we get a nice 12-month calendar to view.
+
+This is a modification of: \url{http://homepage3.nifty.com/oatu/emacs/calendar.html}
+See also: \url{https://stackoverflow.com/questions/9547912/emacs-calendar-show-more-than-3-months}
+
+\begin{verbatim}
+;; https://stackoverflow.com/questions/9547912/emacs-calendar-show-more-than-3-months
+(defun dt/year-calendar (&optional year)
+  (interactive)
+  (require 'calendar)
+  (let* (
+      (current-year (number-to-string (nth 5 (decode-time (current-time)))))
+      (month 0)
+      (year (if year year (string-to-number (format-time-string "%Y" (current-time))))))
+    (switch-to-buffer (get-buffer-create calendar-buffer))
+    (when (not (eq major-mode 'calendar-mode))
+      (calendar-mode))
+    (setq displayed-month month)
+    (setq displayed-year year)
+    (setq buffer-read-only nil)
+    (erase-buffer)
+    ;; horizontal rows
+    (dotimes (j 4)
+      ;; vertical columns
+      (dotimes (i 3)
+        (calendar-generate-month
+          (setq month (+ month 1))
+          year
+          ;; indentation / spacing between months
+          (+ 5 (* 25 i))))
+      (goto-char (point-max))
+      (insert (make-string (- 10 (count-lines (point-min) (point-max))) ?\n))
+      (widen)
+      (goto-char (point-max))
+      (narrow-to-region (point-max) (point-max)))
+    (widen)
+    (goto-char (point-min))
+    (setq buffer-read-only t)))
+
+(defun dt/scroll-year-calendar-forward (&optional arg event)
+  "Scroll the yearly calendar by year in a forward direction."
+  (interactive (list (prefix-numeric-value current-prefix-arg)
+                     last-nonmenu-event))
+  (unless arg (setq arg 0))
+  (save-selected-window
+    (if (setq event (event-start event)) (select-window (posn-window event)))
+    (unless (zerop arg)
+      (let* (
+              (year (+ displayed-year arg)))
+        (dt/year-calendar year)))
+    (goto-char (point-min))
+    (run-hooks 'calendar-move-hook)))
+
+(defun dt/scroll-year-calendar-backward (&optional arg event)
+  "Scroll the yearly calendar by year in a backward direction."
+  (interactive (list (prefix-numeric-value current-prefix-arg)
+                     last-nonmenu-event))
+  (dt/scroll-year-calendar-forward (- (or arg 1)) event))
+
+(map! :leader
+      :desc "Scroll year calendar backward" "<left>" #'dt/scroll-year-calendar-backward
+      :desc "Scroll year calendar forward" "<right>" #'dt/scroll-year-calendar-forward)
+
+(defalias 'year-calendar 'dt/year-calendar)
+\end{verbatim}
+
+Let's also play around with calfw.
+\begin{verbatim}
+(use-package! calfw)
+(use-package! calfw-org)
+\end{verbatim}
+
+\section{CENTAUR-TABS}
+\label{sec:orgb8c06a1}
+To use tabs in Doom Emacs, be sure to uncomment ``tabs'' in Doom's init.el.  Displays tabs at the top of the window similar to tabbed web browsers such as Firefox.  I don't actually use tabs in Emacs.  I placed this in my config to help others who may want tabs.  In the default configuration of Doom Emacs, 'SPC t' is used for ``toggle'' keybindings, so I choose 'SPC t c' to toggle centaur-tabs.  The ``g'' prefix for keybindings is used for a bunch of evil keybindings in Doom, but ``g'' plus the arrow keys were not used, so I thought I would bind those for tab navigation.  But I did leave the default ``g t'' and ``g T'' intact if you prefer to use those for centaur-tabs-forward/backward.
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+centaur-tabs-mode & \emph{Toggle tabs globally} & SPC t c\\[0pt]
+centaur-tabs-local-mode & \emph{Toggle tabs local display} & SPC t C\\[0pt]
+centaur-tabs-forward & \emph{Next tab} & g <right> or g t\\[0pt]
+centaur-tabs-backward & \emph{Previous tab} & g <left> or g T\\[0pt]
+centaur-tabs-forward-group & \emph{Next tab group} & g <down>\\[0pt]
+centaur-tabs-backward-group & \emph{Previous tab group} & g <up>\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(setq centaur-tabs-set-bar 'over
+      centaur-tabs-set-icons t
+      centaur-tabs-gray-out-icons 'buffer
+      centaur-tabs-height 24
+      centaur-tabs-set-modified-marker t
+      centaur-tabs-style "bar"
+      centaur-tabs-modified-marker "•")
+(map! :leader
+      :desc "Toggle tabs globally" "t c" #'centaur-tabs-mode
+      :desc "Toggle tabs local display" "t C" #'centaur-tabs-local-mode)
+(evil-define-key 'normal centaur-tabs-mode-map (kbd "g <right>") 'centaur-tabs-forward        ; default Doom binding is 'g t'
+                                               (kbd "g <left>")  'centaur-tabs-backward       ; default Doom binding is 'g T'
+                                               (kbd "g <down>")  'centaur-tabs-forward-group
+                                               (kbd "g <up>")    'centaur-tabs-backward-group)
+\end{verbatim}
+
+\section{CLIPPY}
+\label{sec:org06ae620}
+Gives us a popup box with ``Clippy, the paper clip''. You can make him say various things by calling 'clippy-say' function.  But the more useful functions of clippy are the two describe functions provided: 'clippy-describe-function' and 'clippy-describe-variable'.  Hit the appropriate keybinding while the point is over a function/variable to call it.  A popup with helpful clippy will appear, telling you about the function/variable (using describe-function and describe-variable respectively).
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+clippy-describe-function & \emph{Clippy describes function under point} & SPC c h f\\[0pt]
+clippy-describe-variable & \emph{Clippy describes variable under point} & SPC c h v\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(map! :leader
+      (:prefix ("c h" . "Help info from Clippy")
+       :desc "Clippy describes function under point" "f" #'clippy-describe-function
+       :desc "Clippy describes variable under point" "v" #'clippy-describe-variable))
+
+\end{verbatim}
+
+\section{DASHBOARD}
+\label{sec:org90e942e}
+Emacs Dashboard is an extensible startup screen showing you recent files, bookmarks, agenda items and an Emacs banner.
+
+\subsection{Configuring Dashboard}
+\label{sec:org07ea0d6}
+\begin{verbatim}
+(use-package dashboard
+  :init      ;; tweak dashboard config before loading it
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-banner-logo-title "\nKEYBINDINGS:\
+\nFind file               (SPC .)     \
+Open buffer list    (SPC b i)\
+\nFind recent files       (SPC f r)   \
+Open the eshell     (SPC e s)\
+\nOpen dired file manager (SPC d d)   \
+List of keybindings (SPC h b b)")
+  ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
+  (setq dashboard-startup-banner "~/.config/doom/doom-emacs-dash.png")  ;; use custom image as banner
+  (setq dashboard-center-content nil) ;; set to 't' for centered content
+  (setq dashboard-items '((recents . 5)
+                          (agenda . 5 )
+                          (bookmarks . 5)
+                          (projects . 5)
+                          (registers . 5)))
+  :config
+  (dashboard-setup-startup-hook)
+  (dashboard-modify-heading-icons '((recents . "file-text")
+                                    (bookmarks . "book"))))
+\end{verbatim}
+
+\subsection{Dashboard in Emacsclient}
+\label{sec:org7e30b08}
+This setting ensures that emacsclient always opens on \textbf{dashboard} rather than \textbf{scratch}.
+\begin{verbatim}
+(setq doom-fallback-buffer-name "*dashboard*")
+\end{verbatim}
+
+\section{DIRED}
+\label{sec:org4653bcb}
+Dired is the file manager within Emacs.  Below, I setup keybindings for image previews (peep-dired).  Doom Emacs does not use 'SPC d' for any of its keybindings, so I've chosen the format of 'SPC d' plus 'key'.
+
+\subsection{Keybindings To Open Dired}
+\label{sec:org12e94b7}
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+dired & \emph{Open dired file manager} & SPC d d\\[0pt]
+dired-jump & \emph{Jump to current directory in dired} & SPC d j\\[0pt]
+\end{tabular}
+\end{center}
+
+\subsection{Keybindings Within Dired}
+\label{sec:org268f69f}
+\subsubsection{Basic dired commands}
+\label{sec:org83cb28f}
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+dired-view-file & \emph{View file in dired} & SPC d v\\[0pt]
+dired-up-directory & \emph{Go up in directory tree} & h\\[0pt]
+dired-find-file & \emph{Go down in directory tree (or open if file)} & l\\[0pt]
+dired-next-line & Move down to next line & j\\[0pt]
+dired-previous-line & Move up to previous line & k\\[0pt]
+dired-mark & Mark file at point & m\\[0pt]
+dired-unmark & Unmark file at point & u\\[0pt]
+dired-do-copy & Copy current file or marked files & C\\[0pt]
+dired-do-rename & Rename current file or marked files & R\\[0pt]
+dired-hide-details & Toggle detailed listings on/off & (\\[0pt]
+dired-git-info-mode & Toggle git information on/off & )\\[0pt]
+dired-create-directory & Create new empty directory & +\\[0pt]
+dired-diff & Compare file at point with another & =\\[0pt]
+dired-subtree-toggle & Toggle viewing subtree at point & TAB\\[0pt]
+\end{tabular}
+\end{center}
+
+\subsubsection{Dired commands using regex}
+\label{sec:orgd088ce3}
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+dired-mark-files-regexp & Mark files using regex & \% m\\[0pt]
+dired-do-copy-regexp & Copy files using regex & \% C\\[0pt]
+dired-do-rename-regexp & Rename files using regex & \% R\\[0pt]
+dired-mark-files-regexp & Mark all files using regex & * \%\\[0pt]
+\end{tabular}
+\end{center}
+
+\subsubsection{File permissions and ownership}
+\label{sec:orgf3aa48f}
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+dired-do-chgrp & Change the group of marked files & g G\\[0pt]
+dired-do-chmod & Change the mode of marked files & M\\[0pt]
+dired-do-chown & Change the owner of marked files & O\\[0pt]
+dired-do-rename & Rename file or all marked files & R\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(map! :leader
+      (:prefix ("d" . "dired")
+       :desc "Open dired" "d" #'dired
+       :desc "Dired jump to current" "j" #'dired-jump)
+      (:after dired
+       (:map dired-mode-map
+        :desc "Peep-dired image previews" "d p" #'peep-dired
+        :desc "Dired view file" "d v" #'dired-view-file)))
+
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-open-file ; use dired-find-file instead of dired-open.
+  (kbd "m") 'dired-mark
+  (kbd "t") 'dired-toggle-marks
+  (kbd "u") 'dired-unmark
+  (kbd "C") 'dired-do-copy
+  (kbd "D") 'dired-do-delete
+  (kbd "J") 'dired-goto-file
+  (kbd "M") 'dired-do-chmod
+  (kbd "O") 'dired-do-chown
+  (kbd "P") 'dired-do-print
+  (kbd "R") 'dired-do-rename
+  (kbd "T") 'dired-do-touch
+  (kbd "Y") 'dired-copy-filenamecopy-filename-as-kill ; copies filename to kill ring.
+  (kbd "Z") 'dired-do-compress
+  (kbd "+") 'dired-create-directory
+  (kbd "-") 'dired-do-kill-lines
+  (kbd "% l") 'dired-downcase
+  (kbd "% m") 'dired-mark-files-regexp
+  (kbd "% u") 'dired-upcase
+  (kbd "* %") 'dired-mark-files-regexp
+  (kbd "* .") 'dired-mark-extension
+  (kbd "* /") 'dired-mark-directories
+  (kbd "; d") 'epa-dired-do-decrypt
+  (kbd "; e") 'epa-dired-do-encrypt)
+;; Get file icons in dired
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;; With dired-open plugin, you can launch external programs for certain extensions
+;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
+(setq dired-open-extensions '(("gif" . "sxiv")
+                              ("jpg" . "sxiv")
+                              ("png" . "sxiv")
+                              ("mkv" . "mpv")
+                              ("mp4" . "mpv")))
+\end{verbatim}
+
+\subsection{Keybindings Within Dired With Peep-Dired-Mode Enabled}
+\label{sec:orgab5ec2d}
+If peep-dired is enabled, you will get image previews as you go up/down with 'j' and 'k'
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+peep-dired & \emph{Toggle previews within dired} & SPC d p\\[0pt]
+peep-dired-next-file & \emph{Move to next file in peep-dired-mode} & j\\[0pt]
+peep-dired-prev-file & \emph{Move to previous file in peep-dired-mode} & k\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(evil-define-key 'normal peep-dired-mode-map
+  (kbd "j") 'peep-dired-next-file
+  (kbd "k") 'peep-dired-prev-file)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+\end{verbatim}
+
+\subsection{Making deleted files go to trash can}
+\label{sec:orgd29081c}
+\begin{verbatim}
+(setq delete-by-moving-to-trash t
+      trash-directory "~/.local/share/Trash/files/")
+\end{verbatim}
+
+\texttt{NOTE}: For convenience, you may want to create a symlink to 'local/share/Trash' in your home directory:
+\begin{verbatim}
+cd ~/
+ln -s ~/.local/share/Trash .
+\end{verbatim}
+
+
+\section{DOOM THEME}
+\label{sec:org2b8aec4}
+Setting the theme to doom-one.  To try out new themes, I set a keybinding for counsel-load-theme with 'SPC h t'.
+
+\begin{verbatim}
+(setq doom-theme 'doom-ayu-dark)
+(map! :leader
+      :desc "Load new theme" "h t" #'counsel-load-theme)
+\end{verbatim}
+
+\section{ELFEED}
+\label{sec:org6760b05}
+An RSS newsfeed reader for Emacs.
+
+\begin{verbatim}
+(use-package! elfeed-goodies)
+(elfeed-goodies/setup)
+(setq elfeed-goodies/entry-pane-size 0.5)
+(add-hook 'elfeed-show-mode-hook 'visual-line-mode)
+(evil-define-key 'normal elfeed-show-mode-map
+  (kbd "J") 'elfeed-goodies/split-show-next
+  (kbd "K") 'elfeed-goodies/split-show-prev)
+(evil-define-key 'normal elfeed-search-mode-map
+  (kbd "J") 'elfeed-goodies/split-show-next
+  (kbd "K") 'elfeed-goodies/split-show-prev)
+(setq elfeed-feeds (quote
+                    (("https://www.reddit.com/r/linux.rss" reddit linux)
+                     ("https://www.reddit.com/r/commandline.rss" reddit commandline)
+                     ("https://www.reddit.com/r/distrotube.rss" reddit distrotube)
+                     ("https://www.reddit.com/r/emacs.rss" reddit emacs)
+                     ("https://www.gamingonlinux.com/article_rss.php" gaming linux)
+                     ("https://hackaday.com/blog/feed/" hackaday linux)
+                     ("https://opensource.com/feed" opensource linux)
+                     ("https://linux.softpedia.com/backend.xml" softpedia linux)
+                     ("https://itsfoss.com/feed/" itsfoss linux)
+                     ("https://www.zdnet.com/topic/linux/rss.xml" zdnet linux)
+                     ("https://www.phoronix.com/rss.php" phoronix linux)
+                     ("http://feeds.feedburner.com/d0od" omgubuntu linux)
+                     ("https://www.computerworld.com/index.rss" computerworld linux)
+                     ("https://www.networkworld.com/category/linux/index.rss" networkworld linux)
+                     ("https://www.techrepublic.com/rssfeeds/topic/open-source/" techrepublic linux)
+                     ("https://betanews.com/feed" betanews linux)
+                     ("http://lxer.com/module/newswire/headlines.rss" lxer linux)
+                     ("https://distrowatch.com/news/dwd.xml" distrowatch linux))))
+\end{verbatim}
+
+\section{EMMS}
+\label{sec:orgd5b87b6}
+One of the media players available for Emacs is emms, which stands for Emacs Multimedia System.  By default, Doom Emacs does not use 'SPC a',' so the format I use for these bindings is 'SPC a' plus 'key'.
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+emms-playlist-mode-go & \emph{Switch to the playlist buffer} & SPC a a\\[0pt]
+emms-pause & \emph{Pause the track} & SPC a x\\[0pt]
+emms-stop & \emph{Stop the track} & SPC a s\\[0pt]
+emms-previous & \emph{Play previous track in playlist} & SPC a p\\[0pt]
+emms-next & \emph{Play next track in playlist} & SPC a n\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(emms-all)
+(emms-default-players)
+(emms-mode-line 1)
+(emms-playing-time 1)
+(setq emms-source-file-default-directory "~/Music/"
+      emms-playlist-buffer-name "*Music*"
+      emms-info-asynchronously t
+      emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find)
+(map! :leader
+      (:prefix ("a" . "EMMS audio player")
+       :desc "Go to emms playlist" "a" #'emms-playlist-mode-go
+       :desc "Emms pause track" "x" #'emms-pause
+       :desc "Emms stop track" "s" #'emms-stop
+       :desc "Emms play previous track" "p" #'emms-previous
+       :desc "Emms play next track" "n" #'emms-next))
+\end{verbatim}
+
+\section{EMOJIS}
+\label{sec:orgf4b1f64}
+Emojify is an Emacs extension to display emojis. It can display github style emojis like :smile: or plain ascii ones like :).
+
+\begin{verbatim}
+(use-package emojify
+  :hook (after-init . global-emojify-mode))
+\end{verbatim}
+
+\section{ERC}
+\label{sec:org0416b53}
+ERC is a built-in Emacs IRC client.
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+erc-tls & \emph{Launch ERC using more secure TLS connection} & SPC e E\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(map! :leader
+      (:prefix ("e". "evaluate/ERC/EWW")
+       :desc "Launch ERC with TLS connection" "E" #'erc-tls))
+
+(setq erc-prompt (lambda () (concat "[" (buffer-name) "]"))
+      erc-server "irc.libera.chat"
+      erc-nick "ysb"
+      erc-user-full-name "Yuvraj Birdi"
+      erc-track-shorten-start 24
+      erc-autojoin-channels-alist '(("irc.libera.chat" "#archlinux" "#linux" "#emacs"))
+      erc-kill-buffer-on-part t
+      erc-fill-column 100
+      erc-fill-function 'erc-fill-static
+      erc-fill-static-center 20
+      ;; erc-auto-query 'bury
+      )
+
+\end{verbatim}
+
+\section{EVALUATE ELISP EXPRESSIONS}
+\label{sec:org821ac22}
+Changing some keybindings from their defaults to better fit with Doom Emacs, and to avoid conflicts with my window managers which sometimes use the control key in their keybindings.  By default, Doom Emacs does not use 'SPC e' for anything, so I choose to use the format 'SPC e' plus 'key' for these (I also use 'SPC e' for 'eww' keybindings).
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+eval-buffer & \emph{Evaluate elisp in buffer} & SPC e b\\[0pt]
+eval-defun & \emph{Evaluate the defun containing or after point} & SPC e d\\[0pt]
+eval-expression & \emph{Evaluate an elisp expression} & SPC e e\\[0pt]
+eval-last-sexp & \emph{Evaluate elisp expression before point} & SPC e l\\[0pt]
+eval-region & \emph{Evaluate elisp in region} & SPC e r\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(map! :leader
+      (:prefix ("e". "evaluate/ERC/EWW")
+       :desc "Evaluate elisp in buffer" "b" #'eval-buffer
+       :desc "Evaluate defun" "d" #'eval-defun
+       :desc "Evaluate elisp expression" "e" #'eval-expression
+       :desc "Evaluate last sexpression" "l" #'eval-last-sexp
+       :desc "Evaluate elisp in region" "r" #'eval-region))
+\end{verbatim}
+
+\section{EWW}
+\label{sec:org2025dd9}
+EWW is the Emacs Web Wowser, the builtin browser in Emacs.  Below I set urls to open in a specific browser (eww) with browse-url-browser-function.  By default, Doom Emacs does not use 'SPC e' for anything, so I choose to use the format 'SPC e' plus 'key' for these (I also use 'SPC e' for 'eval' keybindings).  I chose to use 'SPC s w' for eww-search-words because Doom Emacs uses 'SPC s' for 'search' commands.
+
+\begin{verbatim}
+(setq browse-url-browser-function 'eww-browse-url)
+(map! :leader
+      :desc "Search web for text between BEG/END"
+      "s w" #'eww-search-words
+      (:prefix ("e" . "evaluate/ERC/EWW")
+       :desc "Eww web browser" "w" #'eww
+       :desc "Eww reload page" "R" #'eww-reload))
+\end{verbatim}
+
+\section{EXWM}
+\label{sec:org9138b7e}
+\begin{verbatim}
+(autoload 'exwm-enable "exwm-config.el")
+\end{verbatim}
+
+\section{FONTS}
+\label{sec:org9813657}
+Settings related to fonts within Doom Emacs:
+\begin{itemize}
+\item 'doom-font' -- standard monospace font that is used for most things in Emacs.
+\item 'doom-variable-pitch-font' -- variable font which is useful in some Emacs plugins.
+\item 'doom-big-font' -- used in doom-big-font-mode; useful for presentations.
+\item 'font-lock-comment-face' -- for comments.
+\item 'font-lock-keyword-face' -- for keywords with special significance like 'setq' in elisp.
+\end{itemize}
+
+\begin{verbatim}
+(setq doom-font (font-spec :family "JetBrains Mono" :size 15)
+      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 15)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 24))
+(after! doom-themes
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-keyword-face :slant italic))
+\end{verbatim}
+
+\section{INSERT DATE}
+\label{sec:orgb90e348}
+Some custom functions to insert the date.  The function 'insert-todays-date' can be used one of three different ways: (1) just the keybinding without the universal argument prefix, (2) with one universal argument prefix, or (3) with two universal argument prefixes.  The universal argument prefix is 'SPC-u' in Doom Emacs (C-u in standard GNU Emacs).  The function 'insert-any-date' only outputs to one format, which is the same format as 'insert-todays-date' without a prefix.
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & EXAMPLE OUTPUT & KEYBINDING\\[0pt]
+\hline
+dt/insert-todays-date & Friday, November 19, 2021 & SPC i d t\\[0pt]
+dt/insert-todays-date & 11-19-2021 & SPC u SPC i d t\\[0pt]
+dt/insert-todays-date & 2021-11-19 & SPC u SPC u SPC i d t\\[0pt]
+dt/insert-any-date & Friday, November 19, 2021 & SPC i d a\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(defun dt/insert-todays-date (prefix)
+  (interactive "P")
+  (let ((format (cond
+                 ((not prefix) "%A, %B %d, %Y")
+                 ((equal prefix '(4)) "%m-%d-%Y")
+                 ((equal prefix '(16)) "%Y-%m-%d"))))
+    (insert (format-time-string format))))
+
+(require 'calendar)
+(defun dt/insert-any-date (date)
+  "Insert DATE using the current locale."
+  (interactive (list (calendar-read-date)))
+  (insert (calendar-date-string date)))
+
+(map! :leader
+      (:prefix ("i d" . "Insert date")
+        :desc "Insert any date" "a" #'dt/insert-any-date
+        :desc "Insert todays date" "t" #'dt/insert-todays-date))
+\end{verbatim}
+\section{IVY}
+\label{sec:orgd482492}
+Ivy is a generic completion mechanism for Emacs.
+
+\subsection{IVY-POSFRAME}
+\label{sec:org00af524}
+Ivy-posframe is an ivy extension, which lets ivy use posframe to show its candidate menu.  Some of the settings below involve:
+\begin{itemize}
+\item ivy-posframe-display-functions-alist -- sets the display position for specific programs
+\item ivy-posframe-height-alist -- sets the height of the list displayed for specific programs
+\end{itemize}
+
+Available functions (positions) for 'ivy-posframe-display-functions-alist'
+\begin{itemize}
+\item ivy-posframe-display-at-frame-center
+\item ivy-posframe-display-at-window-center
+\item ivy-posframe-display-at-frame-bottom-left
+\item ivy-posframe-display-at-window-bottom-left
+\item ivy-posframe-display-at-frame-bottom-window-center
+\item ivy-posframe-display-at-point
+\item ivy-posframe-display-at-frame-top-center
+\end{itemize}
+
+\texttt{NOTE:} If the setting for 'ivy-posframe-display' is set to 'nil' (false), anything that is set to 'ivy-display-function-fallback' will just default to their normal position in Doom Emacs (usually a bottom split).  However, if this is set to 't' (true), then the fallback position will be centered in the window.
+
+\begin{verbatim}
+(setq ivy-posframe-display-functions-alist
+      '((swiper                     . ivy-posframe-display-at-point)
+        (complete-symbol            . ivy-posframe-display-at-point)
+        (counsel-M-x                . ivy-display-function-fallback)
+        (counsel-esh-history        . ivy-posframe-display-at-window-center)
+        (counsel-describe-function  . ivy-display-function-fallback)
+        (counsel-describe-variable  . ivy-display-function-fallback)
+        (counsel-find-file          . ivy-display-function-fallback)
+        (counsel-recentf            . ivy-display-function-fallback)
+        (counsel-register           . ivy-posframe-display-at-frame-bottom-window-center)
+        (dmenu                      . ivy-posframe-display-at-frame-top-center)
+        (nil                        . ivy-posframe-display))
+      ivy-posframe-height-alist
+      '((swiper . 20)
+        (dmenu . 20)
+        (t . 10)))
+(ivy-posframe-mode 1) ; 1 enables posframe-mode, 0 disables it.
+\end{verbatim}
+
+\subsection{IVY KEYBINDINGS}
+\label{sec:orgc69867c}
+By default, Doom Emacs does not use 'SPC v', so the format I use for these bindings is 'SPC v' plus 'key'.
+
+\begin{verbatim}
+(map! :leader
+      (:prefix ("v" . "Ivy")
+       :desc "Ivy push view" "v p" #'ivy-push-view
+       :desc "Ivy switch view" "v s" #'ivy-switch-view))
+\end{verbatim}
+
+\section{LINE SETTINGS}
+\label{sec:org7361c03}
+I set comment-line to 'SPC TAB TAB' which is a rather comfortable keybinding for me on my ZSA Moonlander keyboard.  The standard Emacs keybinding for comment-line is 'C-x C-;'.  The other keybindings are for commands that toggle on/off various line-related settings.  Doom Emacs uses 'SPC t' for ``toggle'' commands, so I choose 'SPC t' plus 'key' for those bindings.
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+comment-line & \emph{Comment or uncomment lines} & SPC TAB TAB\\[0pt]
+hl-line-mode & \emph{Toggle line highlighting in current frame} & SPC t h\\[0pt]
+global-hl-line-mode & \emph{Toggle line highlighting globally} & SPC t H\\[0pt]
+doom/toggle-line-numbers & \emph{Toggle line numbers} & SPC t l\\[0pt]
+toggle-truncate-lines & \emph{Toggle truncate lines} & SPC t t\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(setq display-line-numbers-type 't)
+(setq display-line-numbers-type 'visual)
+(map! :leader
+      :desc "Comment or uncomment lines" "TAB TAB" #'comment-line
+      (:prefix ("t" . "toggle")
+       :desc "Toggle line numbers" "l" #'doom/toggle-line-numbers
+       :desc "Toggle line highlight in frame" "h" #'hl-line-mode
+       :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
+       :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
+\end{verbatim}
+
+\section{MARKDOWN}
+\label{sec:org210b8a0}
+
+\begin{verbatim}
+(custom-set-faces
+ '(markdown-header-face ((t (:inherit font-lock-function-name-face :weight bold :family "variable-pitch"))))
+ '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.7))))
+ '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.6))))
+ '(markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.5))))
+ '(markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.4))))
+ '(markdown-header-face-5 ((t (:inherit markdown-header-face :height 1.3))))
+ '(markdown-header-face-6 ((t (:inherit markdown-header-face :height 1.2)))))
+
+\end{verbatim}
+
+\section{MINIMAP}
+\label{sec:org78c277a}
+A minimap sidebar displaying a smaller version of the current buffer on either the left or right side. It highlights the currently shown region and updates its position automatically.  Be aware that this minimap program does not work in Org documents.  This is not unusual though because I have tried several minimap programs and none of them can handle Org.
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+minimap-mode & \emph{Toggle minimap-mode} & SPC t m\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(setq minimap-window-location 'right)
+(map! :leader
+      (:prefix ("t" . "toggle")
+       :desc "Toggle minimap-mode" "m" #'minimap-mode))
+\end{verbatim}
+
+\section{MODELINE}
+\label{sec:org2ce37ea}
+The modeline is the bottom status bar that appears in Emacs windows.  For more information on what is available to configure in the Doom modeline, check out:
+\url{https://github.com/seagle0128/doom-modeline}
+
+\begin{verbatim}
+(set-face-attribute 'mode-line nil :font "JetBrains Mono-13")
+(setq doom-modeline-height 30     ;; sets modeline height
+      doom-modeline-bar-width 5   ;; sets right bar width
+      doom-modeline-persp-name t  ;; adds perspective name to modeline
+      doom-modeline-persp-icon t) ;; adds folder icon next to persp name
+\end{verbatim}
+
+\section{MOUSE SUPPORT}
+\label{sec:org4c4007e}
+Adding mouse support in the terminal version of Emacs.
+
+\begin{verbatim}
+(xterm-mouse-mode 1)
+\end{verbatim}
+
+\section{NEOTREE}
+\label{sec:org2e1d881}
+Neotree is a file tree viewer.  When you open neotree, it jumps to the current file thanks to neo-smart-open.  The neo-window-fixed-size setting makes the neotree width be adjustable.  Doom Emacs had no keybindings set for neotree.  Since Doom Emacs uses 'SPC t' for 'toggle' keybindings, I used 'SPC t n' for toggle-neotree.
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+neotree-toggle & \emph{Toggle neotree} & SPC t n\\[0pt]
+neotree- dir & \emph{Open directory in neotree} & SPC d n\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(after! neotree
+  (setq neo-smart-open t
+        neo-window-fixed-size nil))
+(after! doom-themes
+  (setq doom-neotree-enable-variable-pitch t))
+(map! :leader
+      :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
+      :desc "Open directory in neotree" "d n" #'neotree-dir)
+\end{verbatim}
+
+\section{OPEN SPECIFIC FILES}
+\label{sec:org0621b21}
+Keybindings to open files that I work with all the time using the find-file command, which is the interactive file search that opens with 'C-x C-f' in GNU Emacs or 'SPC f f' in Doom Emacs.  These keybindings use find-file non-interactively since we specify exactly what file to open.  The format I use for these bindings is 'SPC =' plus 'key' since Doom Emacs does not use 'SPC ='.
+
+\begin{center}
+\begin{tabular}{lll}
+PATH TO FILE & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+\textasciitilde{}/Org/agenda.org & \emph{Edit agenda file} & SPC = a\\[0pt]
+\textasciitilde{}/.config/doom/config.org & \emph{Edit doom config.org} & SPC = c\\[0pt]
+\textasciitilde{}/.config/doom/init.el & \emph{Edit doom init.el} & SPC = i\\[0pt]
+\textasciitilde{}/.config/doom/packages.el & \emph{Edit doom packages.el} & SPC = p\\[0pt]
+\textasciitilde{}/.config/doom/eshell/aliases & \emph{Edit eshell aliases} & SPC = e a\\[0pt]
+\textasciitilde{}/.config/doom/eshell/profile & \emph{Edit eshell profile} & SPC = e p\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(map! :leader
+      (:prefix ("=" . "open file")
+       :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/nc/Org/agenda.org"))
+       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.org"))
+       :desc "Edit doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
+       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el"))))
+(map! :leader
+      (:prefix ("= e" . "open eshell files")
+       :desc "Edit eshell aliases" "a" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/aliases"))
+       :desc "Edit eshell profile" "p" #'(lambda () (interactive) (find-file "~/.config/doom/eshell/profile"))))
+\end{verbatim}
+
+\section{ORG MODE}
+\label{sec:org22c158f}
+I wrapped most of this block in (after! org).  Without this, my settings might be evaluated too early, which will result in my settings being overwritten by Doom's defaults.  I have also enabled org-journal, org-superstar and org-roam by adding (+journal +pretty +roam2) to the org section of my Doom Emacs init.el.
+
+\texttt{NOTE:} I have the location of my Org directory and Roam directory in \$HOME/nc/ which is a Nextcloud folder that allows me to instantly sync all of my Org work between my home computer and my office computer.
+
+\begin{verbatim}
+(map! :leader
+      :desc "Org babel tangle" "m B" #'org-babel-tangle)
+(after! org
+  (setq org-directory "~/nc/Org/"
+        org-agenda-files '("~/nc/Org/agenda.org")
+        org-default-notes-file (expand-file-name "notes.org" org-directory)
+        org-ellipsis " ▼ "
+        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
+        org-superstar-itembullet-alist '((?+ . ?➤) (?- . ?✦)) ; changes +/- symbols in item lists
+        org-log-done 'time
+        org-hide-emphasis-markers t
+        ;; ex. of org-link-abbrev-alist in action
+        ;; [[arch-wiki:Name_of_Page][Description]]
+        org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
+          '(("google" . "http://www.google.com/search?q=")
+            ("arch-wiki" . "https://wiki.archlinux.org/index.php/")
+            ("ddg" . "https://duckduckgo.com/?q=")
+            ("wiki" . "https://en.wikipedia.org/wiki/"))
+        org-table-convert-region-max-lines 20000
+        org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+          '((sequence
+             "TODO(t)"           ; A task that is ready to be tackled
+             "BLOG(b)"           ; Blog writing assignments
+             "GYM(g)"            ; Things to accomplish at the gym
+             "PROJ(p)"           ; A project that contains other tasks
+             "VIDEO(v)"          ; Video assignments
+             "WAIT(w)"           ; Something is holding up this task
+             "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+             "DONE(d)"           ; Task has been completed
+             "CANCELLED(c)" )))) ; Task has been cancelled
+\end{verbatim}
+Setting org-mode load languages
+\begin{verbatim}
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (julia . t)
+   (python . t)
+   (jupyter . t)))
+\end{verbatim}
+
+\subsection{Org fonts}
+\label{sec:orgdf9a06d}
+I have created an interactive function for each color scheme (M-x dt/org-colors-*).  These functions will set appropriate colors and font attributes for org-level fonts and the org-table font.
+\begin{verbatim}
+
+(defun dt/org-colors-doom-one ()
+  "Enable Doom One colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 "#51afef" ultra-bold)
+         (org-level-2 1.6 "#c678dd" extra-bold)
+         (org-level-3 1.5 "#98be65" bold)
+         (org-level-4 1.4 "#da8548" semi-bold)
+         (org-level-5 1.3 "#5699af" normal)
+         (org-level-6 1.2 "#a9a1e1" normal)
+         (org-level-7 1.1 "#46d9ff" normal)
+         (org-level-8 1.0 "#ff6c6b" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-dracula ()
+  "Enable Dracula colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 "#8be9fd" ultra-bold)
+         (org-level-2 1.6 "#bd93f9" extra-bold)
+         (org-level-3 1.5 "#50fa7b" bold)
+         (org-level-4 1.4 "#ff79c6" semi-bold)
+         (org-level-5 1.3 "#9aedfe" normal)
+         (org-level-6 1.2 "#caa9fa" normal)
+         (org-level-7 1.1 "#5af78e" normal)
+         (org-level-8 1.0 "#ff92d0" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-gruvbox-dark ()
+  "Enable Gruvbox Dark colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 "#458588" ultra-bold)
+         (org-level-2 1.6 "#b16286" extra-bold)
+         (org-level-3 1.5 "#98971a" bold)
+         (org-level-4 1.4 "#fb4934" semi-bold)
+         (org-level-5 1.3 "#83a598" normal)
+         (org-level-6 1.2 "#d3869b" normal)
+         (org-level-7 1.1 "#d79921" normal)
+         (org-level-8 1.0 "#8ec07c" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-monokai-pro ()
+  "Enable Monokai Pro colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 "#78dce8" ultra-bold)
+         (org-level-2 1.6 "#ab9df2" extra-bold)
+         (org-level-3 1.5 "#a9dc76" bold)
+         (org-level-4 1.4 "#fc9867" semi-bold)
+         (org-level-5 1.3 "#ff6188" normal)
+         (org-level-6 1.2 "#ffd866" normal)
+         (org-level-7 1.1 "#78dce8" normal)
+         (org-level-8 1.0 "#ab9df2" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-nord ()
+  "Enable Nord colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 "#81a1c1" ultra-bold)
+         (org-level-2 1.6 "#b48ead" extra-bold)
+         (org-level-3 1.5 "#a3be8c" bold)
+         (org-level-4 1.4 "#ebcb8b" semi-bold)
+         (org-level-5 1.3 "#bf616a" normal)
+         (org-level-6 1.2 "#88c0d0" normal)
+         (org-level-7 1.1 "#81a1c1" normal)
+         (org-level-8 1.0 "#b48ead" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-oceanic-next ()
+  "Enable Oceanic Next colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 "#6699cc" ultra-bold)
+         (org-level-2 1.6 "#c594c5" extra-bold)
+         (org-level-3 1.5 "#99c794" bold)
+         (org-level-4 1.4 "#fac863" semi-bold)
+         (org-level-5 1.3 "#5fb3b3" normal)
+         (org-level-6 1.2 "#ec5f67" normal)
+         (org-level-7 1.1 "#6699cc" normal)
+         (org-level-8 1.0 "#c594c5" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-palenight ()
+  "Enable Palenight colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 "#82aaff" ultra-bold)
+         (org-level-2 1.6 "#c792ea" extra-bold)
+         (org-level-3 1.5 "#c3e88d" bold)
+         (org-level-4 1.4 "#ffcb6b" semi-bold)
+         (org-level-5 1.3 "#a3f7ff" normal)
+         (org-level-6 1.2 "#e1acff" normal)
+         (org-level-7 1.1 "#f07178" normal)
+         (org-level-8 1.0 "#ddffa7" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-solarized-dark ()
+  "Enable Solarized Dark colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 "#268bd2" ultra-bold)
+         (org-level-2 1.6 "#d33682" extra-bold)
+         (org-level-3 1.5 "#859900" bold)
+         (org-level-4 1.4 "#b58900" semi-bold)
+         (org-level-5 1.3 "#cb4b16" normal)
+         (org-level-6 1.2 "#6c71c4" normal)
+         (org-level-7 1.1 "#2aa198" normal)
+         (org-level-8 1.0 "#657b83" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-solarized-light ()
+  "Enable Solarized Light colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 "#268bd2" ultra-bold)
+         (org-level-2 1.6 "#d33682" extra-bold)
+         (org-level-3 1.5 "#859900" bold)
+         (org-level-4 1.4 "#b58900" semi-bold)
+         (org-level-5 1.3 "#cb4b16" normal)
+         (org-level-6 1.2 "#6c71c4" normal)
+         (org-level-7 1.1 "#2aa198" normal)
+         (org-level-8 1.0 "#657b83" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-tomorrow-night ()
+  "Enable Tomorrow Night colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 "#81a2be" ultra-bold)
+         (org-level-2 1.6 "#b294bb" extra-bold)
+         (org-level-3 1.5 "#b5bd68" bold)
+         (org-level-4 1.4 "#e6c547" semi-bold)
+         (org-level-5 1.3 "#cc6666" normal)
+         (org-level-6 1.2 "#70c0ba" normal)
+         (org-level-7 1.1 "#b77ee0" normal)
+         (org-level-8 1.0 "#9ec400" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+;; Load our desired dt/org-colors-* theme on startup
+(dt/org-colors-doom-one)
+
+\end{verbatim}
+
+\subsection{Org-export}
+\label{sec:org5b8e2a6}
+We need ox-man for ``Org eXporting'' to manpage format and ox-gemini for exporting to gemtext (for the gemini protocol).
+
+\texttt{NOTE}: I also enable ox-publish for converting an Org site into an HTML site, but that is done in init.el (org +publish).
+
+\begin{verbatim}
+(use-package ox-man)
+(use-package ox-gemini)
+\end{verbatim}
+
+\subsection{Org-journal}
+\label{sec:orga914e44}
+\begin{verbatim}
+(setq org-journal-dir "~/nc/Org/journal/"
+      org-journal-date-prefix "* "
+      org-journal-time-prefix "** "
+      org-journal-date-format "%B %d, %Y (%A) "
+      org-journal-file-format "%Y-%m-%d.org")
+\end{verbatim}
+
+\subsection{Org-publish}
+\label{sec:org265791a}
+\begin{verbatim}
+(setq org-publish-use-timestamps-flag nil)
+(setq org-export-with-broken-links t)
+(setq org-publish-project-alist
+      '(("distro.tube without manpages"
+         :base-directory "~/nc/gitlab-repos/distro.tube/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/distro.tube/html/"
+         :recursive t
+         :exclude "org-html-themes/.*\\|man-org/man*"
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+         ("man0p"
+         :base-directory "~/nc/gitlab-repos/distro.tube/man-org/man0p/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/distro.tube/html/man-org/man0p/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+         ("man1"
+         :base-directory "~/nc/gitlab-repos/distro.tube/man-org/man1/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/distro.tube/html/man-org/man1/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+         ("man1p"
+         :base-directory "~/nc/gitlab-repos/distro.tube/man-org/man1p/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/distro.tube/html/man-org/man1p/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+         ("man2"
+         :base-directory "~/nc/gitlab-repos/distro.tube/man-org/man2/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/distro.tube/html/man-org/man2/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+         ("man3"
+         :base-directory "~/nc/gitlab-repos/distro.tube/man-org/man3/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/distro.tube/html/man-org/man3/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+         ("man3p"
+         :base-directory "~/nc/gitlab-repos/distro.tube/man-org/man3p/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/distro.tube/html/man-org/man3p/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+         ("man4"
+         :base-directory "~/nc/gitlab-repos/distro.tube/man-org/man4/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/distro.tube/html/man-org/man4/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+         ("man5"
+         :base-directory "~/nc/gitlab-repos/distro.tube/man-org/man5/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/distro.tube/html/man-org/man5/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+         ("man6"
+         :base-directory "~/nc/gitlab-repos/distro.tube/man-org/man6/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/distro.tube/html/man-org/man6/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+         ("man7"
+         :base-directory "~/nc/gitlab-repos/distro.tube/man-org/man7/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/distro.tube/html/man-org/man7/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+         ("man8"
+         :base-directory "~/nc/gitlab-repos/distro.tube/man-org/man8/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/distro.tube/html/man-org/man8/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+         ("org-static"
+         :base-directory "~/Org/website"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+         :publishing-directory "~/public_html/"
+         :recursive t
+         :exclude ".*/org-html-themes/.*"
+         :publishing-function org-publish-attachment)
+         ("dtos.dev"
+         :base-directory "~/nc/gitlab-repos/dtos.dev/"
+         :base-extension "org"
+         :publishing-directory "~/nc/gitlab-repos/dtos.dev/html/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+
+      ))
+\end{verbatim}
+
+\subsection{Org-auto-tangle}
+\label{sec:org107eaff}
+\texttt{org-auto-tangle} allows you to add the option \texttt{\#+auto\_tangle: t} in your Org file so that it automatically tangles when you save the document.
+
+\begin{verbatim}
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t))
+
+\end{verbatim}
+
+\section{PASSWORD STORE}
+\label{sec:org0e91d24}
+Uses the standard Unix password store ``pass''.
+
+\begin{verbatim}
+(use-package! password-store)
+\end{verbatim}
+
+\section{PERSPECTIVE}
+\label{sec:orgc2ccd40}
+Perspective provides multiple named workspaces (or ``perspectives'') in Emacs, similar to having multiple desktops in window managers like Awesome and XMonad.  Each perspective has its own buffer list and its own window layout, making it easy to work on many separate projects without getting lost in all the buffers.  Switching to a perspective activates its window configuration, and when in a perspective, only its buffers are available (by default).  Doom Emacs uses 'SPC some\textsubscript{key}' for binding some of the perspective commands, so I used this binging format for the perspective bindings that I created..
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+persp-switch & Switch to perspective NAME & SPC DEL\\[0pt]
+persp-switch-to-buffer & Switch to buffer in perspective & SPC ,\\[0pt]
+persp-next & Switch to next perspective & SPC ]\\[0pt]
+persp-prev & Switch to previous perspective & SPC [\\[0pt]
+persp-add-buffer & Add a buffer to current perspective & SPC +\\[0pt]
+persp-remove-by-name & Remove perspective by name & SPC -\\[0pt]
++workspace/switch-to-\{0-9\} & Switch to workspace \emph{n} & SPC 0-9\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(map! :leader
+      :desc "Switch to perspective NAME" "DEL" #'persp-switch
+      :desc "Switch to buffer in perspective" "," #'persp-switch-to-buffer
+      :desc "Switch to next perspective" "]" #'persp-next
+      :desc "Switch to previous perspective" "[" #'persp-prev
+      :desc "Add a buffer current perspective" "+" #'persp-add-buffer
+      :desc "Remove perspective by name" "-" #'persp-remove-by-name)
+\end{verbatim}
+
+\section{RAINBOW MODE}
+\label{sec:orgaeb6f09}
+Rainbox mode displays the actual color for any hex value color.  It's such a nice feature that I wanted it turned on all the time, regardless of what mode I am in.  The following creates a global minor mode for rainbow-mode and enables it (exception: org-agenda-mode since rainbow-mode destroys all highlighting in org-agenda).
+
+\begin{verbatim}
+(define-globalized-minor-mode global-rainbow-mode rainbow-mode
+  (lambda ()
+    (when (not (memq major-mode
+                (list 'org-agenda-mode)))
+     (rainbow-mode 1))))
+(global-rainbow-mode 1 )
+\end{verbatim}
+
+\section{REGISTERS}
+\label{sec:org414ced5}
+Emacs registers are compartments where you can save text, rectangles and positions for later use. Once you save text or a rectangle in a register, you can copy it into the buffer once or many times; once you save a position in a register, you can jump back to that position once or many times.  The default GNU Emacs keybindings for these commands (with the exception of counsel-register) involves 'C-x r' followed by one or more other keys.  I wanted to make this a little more user friendly, and since I am using Doom Emacs, I choose to replace the 'C-x r' part of the key chords with 'SPC r'.
+
+\begin{center}
+\begin{tabular}{lll}
+COMMAND & DESCRIPTION & KEYBINDING\\[0pt]
+\hline
+copy-to-register & \emph{Copy to register} & SPC r c\\[0pt]
+frameset-to-register & \emph{Frameset to register} & SPC r f\\[0pt]
+insert-register & \emph{Insert contents of register} & SPC r i\\[0pt]
+jump-to-register & \emph{Jump to register} & SPC r j\\[0pt]
+list-registers & \emph{List registers} & SPC r l\\[0pt]
+number-to-register & \emph{Number to register} & SPC r n\\[0pt]
+counsel-register & \emph{Interactively choose a register} & SPC r r\\[0pt]
+view-register & \emph{View a register} & SPC r v\\[0pt]
+window-configuration-to-register & \emph{Window configuration to register} & SPC r w\\[0pt]
+increment-register & \emph{Increment register} & SPC r +\\[0pt]
+point-to-register & \emph{Point to register} & SPC r SPC\\[0pt]
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+(map! :leader
+      (:prefix ("r" . "registers")
+       :desc "Copy to register" "c" #'copy-to-register
+       :desc "Frameset to register" "f" #'frameset-to-register
+       :desc "Insert contents of register" "i" #'insert-register
+       :desc "Jump to register" "j" #'jump-to-register
+       :desc "List registers" "l" #'list-registers
+       :desc "Number to register" "n" #'number-to-register
+       :desc "Interactively choose a register" "r" #'counsel-register
+       :desc "View a register" "v" #'view-register
+       :desc "Window configuration to register" "w" #'window-configuration-to-register
+       :desc "Increment register" "+" #'increment-register
+       :desc "Point to register" "SPC" #'point-to-register))
+\end{verbatim}
+
+\section{SHELLS}
+\label{sec:orgb74df21}
+Settings for the various shells and terminal emulators within Emacs.
+\begin{itemize}
+\item 'shell-file-name' -- sets the shell to be used in M-x shell, M-x term, M-x ansi-term and M-x vterm.
+\item 'eshell-aliases-file' -- sets an aliases file for the eshell.
+\end{itemize}
+
+\begin{verbatim}
+(setq shell-file-name "/bin/fish"
+      vterm-max-scrollback 5000)
+(setq eshell-rc-script "~/.config/doom/eshell/profile"
+      eshell-aliases-file "~/.config/doom/eshell/aliases"
+      eshell-history-size 5000
+      eshell-buffer-maximum-lines 5000
+      eshell-hist-ignoredups t
+      eshell-scroll-to-bottom-on-input t
+      eshell-destroy-buffer-when-process-dies t
+      eshell-visual-commands'("bash" "fish" "htop" "ssh" "top" "zsh"))
+(map! :leader
+      :desc "Eshell" "e s" #'eshell
+      :desc "Eshell popup toggle" "e t" #'+eshell/toggle
+      :desc "Counsel eshell history" "e h" #'counsel-esh-history
+      :desc "Vterm popup toggle" "v t" #'+vterm/toggle)
+\end{verbatim}
+
+\section{SPLITS}
+\label{sec:org1a923ab}
+I set splits to default to opening on the right using 'prefer-horizontal-split'.  I set a keybinding for 'clone-indirect-buffer-other-window' for when I want to have the same document in two splits.  The text of the indirect buffer is always identical to the text of its base buffer; changes made by editing either one are visible immediately in the other.  But in all other respects, the indirect buffer and its base buffer are completely separate.  For example, I can fold one split but other will be unfolded.
+
+\begin{verbatim}
+(defun prefer-horizontal-split ()
+  (set-variable 'split-height-threshold nil t)
+  (set-variable 'split-width-threshold 40 t)) ; make this as low as needed
+(add-hook 'markdown-mode-hook 'prefer-horizontal-split)
+(map! :leader
+      :desc "Clone indirect buffer other window" "b c" #'clone-indirect-buffer-other-window)
+\end{verbatim}
+
+\section{WINNER MODE}
+\label{sec:org62450ae}
+Winner mode has been included with GNU Emacs since version 20.  This is a global minor mode and, when activated, it allows you to “undo” (and “redo”) changes in the window configuration with the key commands 'SCP w <left>' and 'SPC w <right>'.
+
+\begin{verbatim}
+(map! :leader
+      (:prefix ("w" . "window")
+       :desc "Winner redo" "<right>" #'winner-redo
+       :desc "Winner undo" "<left>" #'winner-undo))
+\end{verbatim}
+
+\section{ZAP TO CHAR}
+\label{sec:org99ccb26}
+Emacs provides a 'zap-to-char' command that kills from the current point to a character.  It is bound to 'M-z' in standard GNU Emacs but since Doom Emacs uses 'SPC' as its leader key and does not have 'SPC z' binded to anything, it just makes since to use it for 'zap-to-char'.  Note that 'zap-to-char' can be used with the universal argument 'SPC u' to modify its behavior.  Examples of 'zap-to-char' usage are listed in the table below:
+
+\begin{center}
+\begin{tabular}{ll}
+KEYBINDING & WHAT IS DOES\\[0pt]
+\hline
+SPC z e & deletes all chars to the next occurrence of 'e'\\[0pt]
+SPC u 2 SPC z e & deletes all chars to the second occurrence of 'e'\\[0pt]
+SPC u - SPC z e & deletes all chars to the previous occurrence of 'e'\\[0pt]
+SPC u - 2 SPC z e & deletes all chars to the second previous occurrence of 'e'\\[0pt]
+SPC u 1 0 0 SPC u SPC z e & deletes all chars to the 100th occurrence of 'e'\\[0pt]
+\end{tabular}
+\end{center}
+
+\texttt{TIP}: The universal argument (SPC u) can only take a single integer by default.  If you need to use a multi-digit number (like 100 in the last example in the table above), then you must terminate the universal argument with another 'SPC u' after typing the number.
+
+'zap-up-to-char' is an alternative command that does not zap the char specified.  It is binded to 'SPC Z'.  It can also be used in conjunction with the universal argument 'SPC u' in similar fashion to the the 'zap-to-char' examples above.
+
+\texttt{NOTE}:  Vim (evil mode) has similar functionality builtin.  You can delete to the next occurrence of 'e' by using 'dte' in normal.  To delete to the next occurrence of 'e' including the 'e', then you would use 'dfe'.  And you can modify 'dt' and 'df' by prefixing them with numbers, so '2dte' would delete to the second occurrence of 'e'.
+
+\begin{verbatim}
+(map! :leader
+      :desc "Zap to char" "z" #'zap-to-char
+      :desc "Zap up to char" "Z" #'zap-up-to-char)
+\end{verbatim}
+
+\section{FLYSPELL}
+\label{sec:orgc609170}
+\begin{verbatim}
+;; (add-hook 'text-mode-hook 'flyspell-mode)
+;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+;; (setq-default spell-checking-enable-by-default nil)
+;; (setq flyspell-issue-message-flag nil
+;;       ispell-program-name "aspell"
+;;       ispell-extra-args '("--sug-mode=ultra"))
+\end{verbatim}
+
+\section{JUPYTER}
+\label{sec:orgcfa3b94}
+\begin{verbatim}
+;; (setq org-latex-pdf-process (list
+;;    "latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"))
+\end{verbatim}
+\end{document}

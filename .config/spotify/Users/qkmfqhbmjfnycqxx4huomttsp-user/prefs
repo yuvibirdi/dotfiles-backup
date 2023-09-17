@@ -1,0 +1,6 @@
+audio.play_bitrate_non_metered_migrated=true
+audio.sync_bitrate_enumeration=3
+audio.play_bitrate_enumeration=3
+audio.play_bitrate_non_metered_enumeration=3
+ui.right_panel_content=0
+ui.show_friend_feed=false
