@@ -1,0 +1,6 @@
+[submodule "arch/.config/emacs-conf"]
+	path = arch/.config/emacs-conf
+	url = https://www.gitlab.com/yuvibirdi/emacs-conf
+[submodule "arch/.config/emacs"]
+	path = arch/.config/emacs
+	url = https://www.gitlab.com/yuvibirdi/emacs-conf
