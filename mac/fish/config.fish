@@ -3,13 +3,11 @@
 # First line removes the path; second line sets it.  Without the first line,
 # your path gets massive and fish becomes very slow.
 set -e fish_user_paths
-set -U fish_user_paths /opt/homebrew/bin/ $fish_user_paths
+set -U fish_user_paths /opt/homebrew/bin $fish_user_paths
 set -U fish_user_paths /opt/homebrew/sbin $fish_user_paths
-set -U fish_user_paths /usr/local/texlive/2024/bin/universal-darwin $fish_user_paths
 set -U fish_user_paths $HOME/.local/bin $HOME/Applications $HOME/.cargo/bin $fish_user_paths 
 set -U fish_user_paths /opt/homebrew/opt/llvm/bin $fish_user_paths
-set -U fish_user_paths $HOME/go/bin/ $fish_user_paths
-set -U fish_user_paths /Library/TeX/texbin $fish_user_paths
+set -U fish_user_paths $HOME/go/bin $fish_user_paths
 
 set -U OPENER "open"
 # set -U fish_user_paths /Users/yb/git/ece-198-gb/master/Drivers/CMSIS/Include/core_cm4.h
@@ -356,9 +354,27 @@ alias tips="lbrynet txo spend --type=support --is_not_my_input --blocking"
 alias mocp="bash -c mocp"
 
 
+function ts
+    set -l current (pmset -g | grep SleepDisabled | awk {'print $2'})
+    if test -z "$current"
+        echo "toggle_sleep: couldn’t determine current disablesleep value" >&2
+    else if test "$current" = "1"
+        echo "Enabling sleep… (disablesleep 0)"
+        sudo pmset disablesleep 0
+    else if test "$current" = "0"
+        echo "Disabling sleep… (disablesleep 1)"
+        sudo pmset disablesleep 1
+    end 
+    # Show the new state
+    set -l new_state (pmset -g | grep SleepDisabled)
+    echo "Current sleep status => $new_state"
+end
+
+
+
 # gcc aliases
-alias gcc="gcc-14"
-alias g++="g++-14"
+alias gcc="gcc-15"
+alias g++="g++-15"
 
 starship init fish | source
 
