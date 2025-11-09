@@ -1,7 +1,12 @@
-#!/bin/bash
-# This script sets up the environment for the runpod
-echo "Setting up the project environment..."
-sudo apt update && sudo apt upgrade
-sudo apt install -y neovim btop git curl vulkan-tools libegl1 libgl1 libglx0 libglvnd0 libgles2
-curl https://raw.githubusercontent.com/yuvibirdi/dotfiles-backup/refs/heads/master/mac/fish/config.fish -o ~/.config/fish/config.fish
+#!/usr/bin/env bash
+set -eo pipefail
 
+echo "Setting up the project environment..."
+sudo apt update -y && sudo apt upgrade -y
+sudo apt install -y fish neovim btop git curl vulkan-tools libegl1 libgl1 libglx0 libglvnd0 libgles2
+cd ~/
+git clone https://www.github.com/yuvibirdi/dotfiles-backup dotfiles
+cd dotfiles/ssh
+cp -rfv .config/* ~/.config/
+cp -rfv ..files/.* ~/
+echo "done setting up! enjoy"

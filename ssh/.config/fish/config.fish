@@ -77,3 +77,16 @@ alias pscpu='ps auxf | sort -nr -k 3'
 alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
 alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
 alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+if test -f /workspace/miniconda3/bin/conda
+    eval /workspace/miniconda3/bin/conda "shell.fish" "hook" $argv | source
+else
+    if test -f "/workspace/miniconda3/etc/fish/conf.d/conda.fish"
+        . "/workspace/miniconda3/etc/fish/conf.d/conda.fish"
+    else
+        set -x PATH "/workspace/miniconda3/bin" $PATH
+    end
+end
+# <<< conda initialize <<<
