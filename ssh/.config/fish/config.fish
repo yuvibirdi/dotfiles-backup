@@ -1,8 +1,10 @@
 ### ADDING TO THE PATH
 # First line removes the path; second line sets it.  Without the first line,
 # your path gets massive and fish becomes very slow.
-set -e fish_user_paths
-set -U fish_user_paths $HOME/.local/bin $HOME/Applications $fish_user_paths $HOME/.cargo/bin
+fish_add_path --universal $HOME/.local/bin
+fish_add_path --universal $HOME/Applications
+fish_add_path --universal $HOME/.cargo/bin
+fish_add_path --universal /opt/cuda/bin
 
 ### EXPORT ###
 set fish_greeting                                 # Supresses fish's intro message
@@ -40,9 +42,6 @@ end
 # navigation
 alias ..='cd ..'
 alias ...='cd ../..'
-alias .3='cd ../../..'
-alias .4='cd ../../../..'
-alias .5='cd ../../../../..'
 
 # vim and emacs
 alias vim='nvim'
@@ -78,15 +77,32 @@ alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
 alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
 alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-if test -f /workspace/miniconda3/bin/conda
-    eval /workspace/miniconda3/bin/conda "shell.fish" "hook" $argv | source
-else
-    if test -f "/workspace/miniconda3/etc/fish/conf.d/conda.fish"
-        . "/workspace/miniconda3/etc/fish/conf.d/conda.fish"
-    else
-        set -x PATH "/workspace/miniconda3/bin" $PATH
+# Lazy-load pyenv and pyenv-virtualenv
+function pyenv
+    # Remove this wrapper function
+    functions --erase pyenv
+
+    # Initialize pyenv (creates the actual pyenv function)
+    /usr/bin/pyenv init - | source
+
+    # Initialize virtualenv if available
+    if test -d (pyenv root)/plugins/pyenv-virtualenv
+        /usr/bin/pyenv virtualenv-init - | source
     end
+
+    # Call pyenv with the original arguments
+    pyenv $argv
 end
-# <<< conda initialize <<<
+
+# Conda config
+set -x CONDA_PATH /workspace/miniconda3/bin/conda
+function conda
+    echo "Lazy loading conda..."
+    functions --erase conda
+    if test -f $CONDA_PATH
+        eval $CONDA_PATH "shell.fish" "hook" | source
+        conda $argv
+        return
+    end
+    echo "No conda installation found in $CONDA_PATH"
+end
