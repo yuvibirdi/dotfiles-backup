@@ -7,6 +7,10 @@ sudo apt install -y fish neovim btop git curl vulkan-tools libegl1 libgl1 libglx
 cd ~/
 git clone https://www.github.com/yuvibirdi/dotfiles-backup dotfiles
 cd dotfiles/ssh
+if [ ! -d "/root/.config" ]; then
+    mkdir /root/.config
+fi
 cp -rfv .config/* ~/.config/
 cp -rfv ..files/.* ~/
+
 echo "done setting up! enjoy"

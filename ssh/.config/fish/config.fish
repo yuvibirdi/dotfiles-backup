@@ -77,6 +77,13 @@ alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
 alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
 alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
 
+# runpod specific alias
+set -x NVIDIA_DRIVER_CAPABILITIES compute,graphics,utility
+set -x VK_ICD_FILENAMES /etc/vulkan/icd.d/nvidia_icd.json
+set -x VK_LAYER_PATH /usr/share/vulkan/implicit_layer.d
+set -x CUDA_LAUNCH_BLOCKING 1
+set -x seed 3
+
 # Lazy-load pyenv and pyenv-virtualenv
 function pyenv
     # Remove this wrapper function
@@ -106,3 +113,5 @@ function conda
     end
     echo "No conda installation found in $CONDA_PATH"
 end
+
+
