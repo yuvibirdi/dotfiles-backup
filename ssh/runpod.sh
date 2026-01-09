@@ -11,6 +11,6 @@ if [ ! -d "/root/.config" ]; then
     mkdir /root/.config
 fi
 cp -rfv .config/* ~/.config/
-cp -rfv ..files/.* ~/
+cp -rfv ..files/.[!.]* ~/
 
 echo "done setting up! enjoy"
