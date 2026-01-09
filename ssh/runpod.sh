@@ -5,7 +5,7 @@ echo "Setting up the project environment..."
 sudo apt update -y && sudo apt upgrade -y
 sudo apt install -y fish neovim btop git curl vulkan-tools libegl1 libgl1 libglx0 libglvnd0 libgles2
 cd ~/
-git clone https://www.github.com/yuvibirdi/dotfiles-backup dotfiles
+git clone https://www.github.com/yuvibirdi/dotfiles-backup dotfiles --depth=1
 cd dotfiles/ssh
 if [ ! -d "/root/.config" ]; then
     mkdir /root/.config
