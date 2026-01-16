@@ -15,6 +15,11 @@ after-startup-command = [
 "layout tiles",
 "focus-monitor 2",
 "layout tiles",
+"focus-monitor 3",
+"layout tiles",
+"workspace 6", "workspace 7", "workspace 8", "workspace 9", "workspace 10",
+  "workspace S", "workspace F",   # poke sidecar workspaces once
+  "workspace 1"                   # return focus to your default
 # "exec-and-forget sketchybar"
 ]
 
@@ -47,7 +52,7 @@ default-root-container-orientation = 'vertical'
 # See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
 # Fallback value (if you omit the key): on-focused-monitor-changed = []
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
-
+on-focus-changed = ['move-mouse window-lazy-center']
 # You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
 # Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
 # Also see: https://nikitabobko.github.io/AeroSpace/goodies#disable-hide-app
@@ -67,12 +72,13 @@ preset = 'qwerty'
 #                 See:
 #                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-inner.horizontal = 8 
-inner.vertical =   0
-outer.left =       8
+inner.horizontal = 5
+inner.vertical =   5
+outer.left =       5
 outer.bottom =     0
 outer.top =        5
-outer.right =      8
+# outer.top =        [{monitor.main = 32}, {monitor.secondary = 32}, 10]
+outer.right =      5
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -138,12 +144,11 @@ alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
 alt-0 = 'workspace 10'
-# alt-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
-# alt-b = 'workspace B'
-# alt-c = 'workspace C'
-# alt-d = 'workspace D'
-# # alt-e = 'workspace E'
-# alt-f = 'workspace F'
+alt-a = 'workspace A'
+alt-s = 'workspace S' 
+alt-d = 'workspace D'
+alt-f = 'workspace F'
+# alt-e = 'workspace E'
 # alt-g = 'workspace G'
 # alt-i = 'workspace I'
 # alt-m = 'workspace M'
@@ -169,13 +174,12 @@ alt-shift-5 = 'move-node-to-workspace 5'
 alt-shift-6 = 'move-node-to-workspace 6'
 alt-shift-7 = 'move-node-to-workspace 7'
 alt-shift-8 = 'move-node-to-workspace 8'
-# alt-shift-9 = 'move-node-to-workspace 9'
-# alt-shift-a = 'move-node-to-workspace A'
-# alt-shift-b = 'move-node-to-workspace B'
-# alt-shift-c = 'move-node-to-workspace C'
-# alt-shift-d = 'move-node-to-workspace D'
-# alt-shift-e = 'move-node-to-workspace E'
-# alt-shift-f = 'move-node-to-workspace F'
+alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-0 = 'move-node-to-workspace 10'
+alt-shift-a = 'move-node-to-workspace A'
+alt-shift-s = 'move-node-to-workspace S' 
+alt-shift-d = 'move-node-to-workspace D'
+alt-shift-f = 'move-node-to-workspace F'
 # alt-shift-g = 'move-node-to-workspace G'
 # alt-shift-i = 'move-node-to-workspace I'
 # alt-shift-m = 'move-node-to-workspace M'
@@ -220,6 +224,11 @@ backspace = ['close-all-windows-but-current', 'mode main']
 # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
 #s = ['layout sticky tiling', 'mode main']
 
+# alt-shift-h = ['join-with left', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change']
+# alt-shift-j = ['join-with down', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change']
+# alt-shift-k = ['join-with up', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change']
+# alt-shift-l = ['join-with right', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change']
+
 alt-shift-h = ['join-with left', 'mode main']
 alt-shift-j = ['join-with down', 'mode main']
 alt-shift-k = ['join-with up', 'mode main']
@@ -230,13 +239,27 @@ up = 'volume up'
 shift-down = ['volume set 0', 'mode main']
 
 [workspace-to-monitor-force-assignment]
-1 = 'Built-in Retina Display'
-2 = 'Built-in Retina Display'
-3 = 'Built-in Retina Display'
-4 = 'Built-in Retina Display'
-5 = 'Built-in Retina Display'
-6 = 'secondary'
-7 = 'secondary'
-8 = 'secondary'
-9 = 'secondary'
-10 = 'secondary'
+
+# Built-in (editing / primary work)
+1  = 'built-in'               # regex, case‑insensitive
+3  = 'built-in'
+5  = 'built-in'
+7  = 'built-in'
+9  = 'built-in'
+
+# Samsung mirrored to BetterDisplay’s virtual panel
+2  = ['^virtual.*16:9$','DELL U2422H', 'S24R35xFZ', "DELL P2723QE", "PHL 288P6L", "DELL P2725HE", "DELL P2721Q", 'built-in']
+4  = ['^virtual.*16:9$','DELL U2422H', 'S24R35xFZ', "DELL P2723QE", "PHL 288P6L", "DELL P2725HE", "DELL P2721Q", 'built-in']
+6  = ['^virtual.*16:9$','DELL U2422H', 'S24R35xFZ', "DELL P2723QE", "PHL 288P6L", "DELL P2725HE", "DELL P2721Q", 'built-in']
+8  = ['^virtual.*16:9$','DELL U2422H', 'S24R35xFZ', "DELL P2723QE", "PHL 288P6L", "DELL P2725HE", "DELL P2721Q", 'built-in']
+10 = ['^virtual.*16:9$','DELL U2422H', 'S24R35xFZ', "DELL P2723QE", "PHL 288P6L", "DELL P2725HE", "DELL P2721Q", 'built-in']
+
+# Occasional Sidecar – falls back to the laptop if the iPad is not around
+A  = ['sidecar.*airplay', 'built-in']
+S  = ['sidecar.*airplay', 'built-in']
+D  = ['sidecar.*airplay', 'built-in']
+F  = ['sidecar.*airplay', 'built-in']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ScreenContinuity'
+run = 'layout tiling'

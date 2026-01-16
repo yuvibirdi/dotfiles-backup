@@ -16,7 +16,7 @@ set -U OPENER "open"
 ### EXPORT ###
 set fish_greeting                                 # Supresses fish's intro message
 #set TERM "alacritty"                         # Sets the terminal type
-set -x EDITOR "nvim"                 # $EDITOR use Emacs in terminal
+set EDITOR "emacsclient -t -a ''"                 # $EDITOR use Emacs in terminal
 #set VISUAL "emacsclient -c -a emacs"              # $VISUAL use Emacs in GUI mode
 
 ### SET MANPAGER
@@ -394,16 +394,10 @@ fish_add_path /home/yb/.spicetify
 
 fish_add_path /Users/yb/.spicetify
 
-
+#zoxide
 zoxide init fish | source
-alias cd="z"
+alias z="cd"
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
-
-# Added by Windsurf
-fish_add_path /Users/yb/.codeium/windsurf/bin
-
-# Added by Antigravity
-fish_add_path /Users/yb/.antigravity/antigravity/bin
