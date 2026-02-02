@@ -2,8 +2,8 @@
 set -eo pipefail
 
 echo "Setting up the project environment..."
-sudo apt update -y && sudo apt upgrade -y
-sudo apt install -y fish neovim btop git curl vulkan-tools libegl1 libgl1 libglx0 libglvnd0 libgles2
+apt update -y && apt upgrade -y
+apt install -y fish neovim btop git curl vulkan-tools libegl1 libgl1 libglx0 libglvnd0 libgles2
 cd ~/
 git clone https://www.github.com/yuvibirdi/dotfiles-backup dotfiles --depth=1
 cd dotfiles/ssh
